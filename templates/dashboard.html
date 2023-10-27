@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensor Dashboard</title>
+    <!-- You can include any CSS or JS links here for styling -->
+</head>
+<body>
+    <h2>Sensor Data</h2>
+    <ul>
+        {% for sensor in sensors %}
+            <li>{{ sensor.name }}: {{ sensor.value }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Alarms</h2>
+    <ul>
+        {% for alarm in alarms %}
+            <li>Type: {{ alarm.type }} | Message: {{ alarm.message }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
