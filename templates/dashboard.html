@@ -3,21 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Sensor Dashboard</title>
-    <!-- You can include any CSS or JS links here for styling -->
 </head>
 <body>
-    <h2>Sensor Data</h2>
-    <ul>
-        {% for sensor in sensors %}
-            <li>{{ sensor.name }}: {{ sensor.value }}</li>
-        {% endfor %}
-    </ul>
+    <h2>Sensor Data from the Last 10 Minutes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Sensor ID</th>
+                <th>Type</th>
+                <th>Max Value</th>
+                <th>Low Value</th>
+                <th>Value</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sensor_value in sensors %}
+                <tr>
+                    <td>{{ sensor_value.sensor_id }}</td>
+                    <td>{{ sensor_value.type }}</td>
+                    <td>{{ sensor_value.max_value }}</td>
+                    <td>{{ sensor_value.low_value }}</td>
+                    <td>{{ sensor_value.value }}</td>
+                    <td>{{ sensor_value.datetime }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <h2>Alarms</h2>
-    <ul>
-        {% for alarm in alarms %}
-            <li>Type: {{ alarm.type }} | Message: {{ alarm.message }}</li>
-        {% endfor %}
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Alarm Type</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alarm in alarms %}
+                <tr>
+                    <td>{{ alarm.type }}</td>
+                    <td>{{ alarm.msg }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
