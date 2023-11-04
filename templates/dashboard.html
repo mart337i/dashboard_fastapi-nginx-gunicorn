@@ -3,50 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>Sensor Dashboard</title>
+    <!-- Include Bootstrap CSS from CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
-    <h2>Sensor Data from the Last 10 Minutes</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Sensor ID</th>
-                <th>Type</th>
-                <th>Max Value</th>
-                <th>Low Value</th>
-                <th>Value</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sensor_value in sensors %}
-                <tr>
-                    <td>{{ sensor_value.sensor_id }}</td>
-                    <td>{{ sensor_value.type }}</td>
-                    <td>{{ sensor_value.max_value }}</td>
-                    <td>{{ sensor_value.low_value }}</td>
-                    <td>{{ sensor_value.value }}</td>
-                    <td>{{ sensor_value.datetime }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="display-4 text-center mb-3">Sensor Dashboard</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Serial number</th>
+                        <th>Sensor ID</th>
+                        <th>Type</th>
+                        <th>Value</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sensor in sensor_values %}
+                        <tr>
+                            <td>{{ sensor['serial_number'] }}</td>
+                            <td>{{ sensor['sensor_id'] }}</td>
+                            <td>{{ sensor['type'] }}</td>
+                            <td>{{ sensor['value'] }}</td>
+                            <td>{{ sensor['timestamp'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <h2>Alarms</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Alarm Type</th>
-                <th>Message</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for alarm in alarms %}
-                <tr>
-                    <td>{{ alarm.type }}</td>
-                    <td>{{ alarm.msg }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <h2 class="mb-3">Alarms</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Alarm Type</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alarm in alarms %}
+                        <tr>
+                            <td>{{ alarm['type'] }}</td>
+                            <td>{{ alarm['msg'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+            <div>
+                <h2>Current Threshold Settings</h2>
+                {% for setting in threshold_settings %}
+                    <div>
+                        <p>Sensor Type: {{ setting.sensor_type }}</p>
+                        <p>Max Value: {{ setting.max_value }}</p>
+                        <p>Low Value: {{ setting.low_value }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        <div>
+            <h1>Change thresholds</h1>
+            <form action="/update-threshold-settings" method="post">
+                <label for="sensor_type">Sensor Type:</label>
+                    <select id="sensor_type" name="sensor_type" required>
+                        <option value="">Select a sensor type...</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="humidity">Humidity</option>
+                    </select>
+
+                <label for="max_value">Max Value:</label>
+                <input type="number" id="max_value" name="max_value" required>
+            
+                <label for="low_value">Low Value:</label>
+                <input type="number" id="low_value" name="low_value" required>
+            
+                <button type="submit">Update Threshold Settings</button>
+            </form>
+        </div>
+    </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
