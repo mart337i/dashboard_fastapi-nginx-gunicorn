@@ -6,7 +6,7 @@ import requests
 import logging
 
 
-logging.basicConfig(filename='/home/sysadmin/code/dashboard_fastapi-nginx-gunicorn/logs/app.log',
+logging.basicConfig(filename='/home/pi/code/dashboard_fastapi-nginx-gunicorn/logs/app.log',
                     filemode='a',  # append to the log file if it exists, otherwise create it
                     level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -18,7 +18,8 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 # You need to set your API server URL here, for example: "http://localhost:8000"
-BASE_URL = "http://127.0.0.1:5000"
+BASE_URL = "http://meo.local/api"
+
 
 class SensorType(str, Enum):
     temperature = "temperature"
@@ -32,13 +33,12 @@ def get_dashboard(request: Request):
     threshold_settings = []
     
     # Fetch the current threshold settings from the main API
-    try:
-        threshold_response = requests.get(BASE_URL + "/threshold-settings/")
-        threshold_response.raise_for_status()  # This will raise an exception for HTTP error responses
-        threshold_settings = threshold_response.json()  # This should be a list of settings
-    except requests.RequestException as e:
-        # Handle error if the main API is not reachable or returns an error
-        raise HTTPException(status_code=threshold_response.status_code, detail=str(e))
+
+    threshold_response = requests.get(BASE_URL + "/threshold-settings/?")
+    _logger.warning(f"threshold_response : {threshold_response}")
+    threshold_response.raise_for_status()  # This will raise an exception for HTTP error responses
+    threshold_settings = threshold_response.json()  # This should be a list of settings
+   
 
 
     # Fetch sensor data from the API using the requests library
