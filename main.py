@@ -103,3 +103,50 @@ def form_update_threshold_settings(
     # If successful, redirect back to the home page where the dashboard is displayed
     return RedirectResponse(url="/", status_code=303)
 
+
+
+@app.get("/get_values", response_class=HTMLResponse)
+def get_values(request: Request):
+    # Initialize empty lists for sensor data and threshold settings
+    sensor_data = []
+    threshold_settings = []
+    
+    # Fetch the current threshold settings from the main API
+
+    threshold_response = requests.get(BASE_URL + "/threshold-settings/?")
+    _logger.warning(f"threshold_response : {threshold_response}")
+    threshold_response.raise_for_status()  # This will raise an exception for HTTP error responses
+    threshold_settings = threshold_response.json()  # This should be a list of settings
+   
+
+
+    # Fetch sensor data from the API using the requests library
+    response = requests.get(BASE_URL + "/dashboard/")
+    
+    if response.status_code == 200:
+        data = response.json()
+        
+        # Reorganize the sensor data into a list of dictionaries
+        sensor_data = []
+        for entry in data["sensor_values"]:
+            sensor_dict = {
+                "serial_number": entry["Sensor"]["serial_number"],
+                "sensor_id": entry["Sensor_value"]["sensor_id"],
+                "type": entry["Sensor_value"]["sensorType"],
+                "value": entry["Sensor_value"]["value"],
+                "timestamp": entry["Sensor_value"]["value_datetime"]
+            }
+            sensor_data.append(sensor_dict)
+        
+        alarms = data["alarms"]
+    else:
+        sensor_data = []
+        alarms = []
+
+    # Pass the reorganized sensor data and alarms to the dashboard template
+    return templates.TemplateResponse("sensor_data.html", {
+        "request": request,
+        "sensor_values": sensor_data,  # Pass the reorganized list of dictionaries
+        "alarms": alarms,
+    })
+

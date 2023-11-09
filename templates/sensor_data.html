@@ -1,0 +1,45 @@
+
+<div hx-get="/get_values" hx-trigger="every 2s">
+
+    <table id="result" class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Serial number</th>
+                <th>Sensor ID</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sensor in sensor_values %}
+                <tr>
+                    <td>{{ sensor['serial_number'] }}</td>
+                    <td>{{ sensor['sensor_id'] }}</td>
+                    <td>{{ sensor['type'] }}</td>
+                    <td>{{ sensor['value'] }}</td>
+                    <td>{{ sensor['timestamp'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2 class="mb-3">Alarms</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Alarm Type</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for alarm in alarms %}
+                            <tr>
+                                <td>{{ alarm['type'] }}</td>
+                                <td>{{ alarm['msg'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+</div>

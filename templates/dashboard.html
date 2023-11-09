@@ -10,48 +10,7 @@
     <div class="container py-5">
         <h1 class="display-4 text-center mb-3">Sensor Dashboard</h1>
         <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Serial number</th>
-                        <th>Sensor ID</th>
-                        <th>Type</th>
-                        <th>Value</th>
-                        <th>Timestamp</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for sensor in sensor_values %}
-                        <tr>
-                            <td>{{ sensor['serial_number'] }}</td>
-                            <td>{{ sensor['sensor_id'] }}</td>
-                            <td>{{ sensor['type'] }}</td>
-                            <td>{{ sensor['value'] }}</td>
-                            <td>{{ sensor['timestamp'] }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <h2 class="mb-3">Alarms</h2>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Alarm Type</th>
-                        <th>Message</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for alarm in alarms %}
-                        <tr>
-                            <td>{{ alarm['type'] }}</td>
-                            <td>{{ alarm['msg'] }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% include 'sensor_data.html' %}
         </div>
             <div>
                 <h2>Current Threshold Settings</h2>
@@ -84,6 +43,7 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.8" integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
