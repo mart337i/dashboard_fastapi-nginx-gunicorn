@@ -109,16 +109,6 @@ def form_update_threshold_settings(
 def get_values(request: Request):
     # Initialize empty lists for sensor data and threshold settings
     sensor_data = []
-    threshold_settings = []
-    
-    # Fetch the current threshold settings from the main API
-
-    threshold_response = requests.get(BASE_URL + "/threshold-settings/?")
-    _logger.warning(f"threshold_response : {threshold_response}")
-    threshold_response.raise_for_status()  # This will raise an exception for HTTP error responses
-    threshold_settings = threshold_response.json()  # This should be a list of settings
-   
-
 
     # Fetch sensor data from the API using the requests library
     response = requests.get(BASE_URL + "/dashboard/")
